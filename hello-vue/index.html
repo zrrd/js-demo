@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
 </head>
+<script src="./node_modules/vue/dist/vue.js"></script>
 <body>
-
+<div id="app">
+  <!--双向绑定  视图影响数据  数据影响视图-->
+  <input type="text"   v-model="num">
+  <button v-on:click="num++">+</button>
+  <button v-on:click="jian()">-</button>
+  <h1>{{name}}非常帅</h1>
+  <h1>有{{num}}位女神为{{name}}着迷</h1>
+</div>
+<script>
+  const vm = new Vue({
+    el: "#app",  //element
+    data: {      //数据
+      name: "彭于晏",
+      num: 1
+    },
+    methods:{
+      jian(){
+        console.log(this);
+        this.num--;
+      }
+    },
+    created(){
+      //创建实例后触发的生命周期钩子
+      this.name= "吴彦祖"
+    }
+  });
+</script>
 </body>
 </html>
