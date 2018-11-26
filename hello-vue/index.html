@@ -1,37 +1,122 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<!--suppress ALL -->
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" xmlns:v-bind="http://www.w3.org/1999/xhtml"
+        xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml"
+        xmlns:v-on="http://www.w3.org/1999/xhtml">
   <title>Title</title>
+  <style>
+    .red {
+      background-color: red;
+    }
+
+    .green {
+      background-color: green;
+    }
+  </style>
 </head>
-<script src="./node_modules/vue/dist/vue.js"></script>
 <body>
 <div id="app">
   <!--双向绑定  视图影响数据  数据影响视图-->
-  <input type="text"   v-model="num">
+  <input type="text" v-model="num"/>
   <button v-on:click="num++">+</button>
   <button v-on:click="jian()">-</button>
-  <h1>{{name}}非常帅</h1>
+
+
+  <!--{{ }}}插值表达式   不光是写model  也可以写js表达式 比如{{1+1}} {{name.substring(1)}} -->
+  <h1>{{name}}非常帅 <span v-text="name+'a'"></span> <span v-html="'<h1>12</h1>'"></span></h1>
   <h1>有{{num}}位女神为{{name}}着迷</h1>
+
+
+  <input type="checkbox" value="java" v-model="language" checked>java<br/>
+  <input type="checkbox" value="python" v-model="language">python<br/>
+  <input type="checkbox" value="go" v-model="language">go<br/>
+  <h1>
+    你选择了 {{language.join(',')}}
+  </h1>
+
+
+  <div @click="print('div')" style="width: 100px;height: 100px;border: 1px solid #1b1b1b">
+    <p @click.stop="print('p')">点我</p>
+  </div>
+  <input type="text" @keyup.13:="test()"/>
+
+
+  <ul>
+    <li v-for="user in users">
+      {{user.username}},{{user.age}}
+    </li>
+  </ul>
+  <ul>
+    <li v-for="(v,k) in person">{{k}} {{v}}</li>
+  </ul>
+  <button @click="show = !show">点我</button>
+  <div v-if="show">展示出来了</div>
+
+  <select v-model="color">
+    <option value="green">green</option>
+    <option value="red">red</option>
+  </select>
+  <div v-bind:class="color">切换背景色</div>
+
+
+  <h1>
+    日期: {{getDate}} <!--不需要用()-->
+  </h1>
 </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
 <script>
   const vm = new Vue({
     el: "#app",  //element
     data: {      //数据
       name: "彭于晏",
-      num: 1
+      num: 1,
+      language: [],
+      users: [
+        {age: 10, username: "赵"},
+        {age: 11, username: "钱"},
+        {age: 12, username: "孙"},
+        {age: 13, username: "李"},
+        {age: 14, username: "周"}
+      ],
+      person: {username: "彭于晏", age: 18},
+      show: false,
+      color: "",
+      date: 1543197810789  //时间戳
     },
-    methods:{
-      jian(){
+    methods: {
+      jian() {
+        //这里的this代表当前Vue对象
         console.log(this);
         this.num--;
+      },
+      print(meg) {
+        console.log(meg);
+      },
+      test() {
+        console.log("你点的是回车键");
       }
     },
-    created(){
+    created() {
       //创建实例后触发的生命周期钩子
-      this.name= "吴彦祖"
+      this.name = "吴彦祖"
+    },
+    computed:{  // 每当计算属性中用到的变量发生变化时,重新计算表达式结果  计算属性必须有返回值
+      getDate(){
+        var d = new Date(this.date);
+        return d.getFullYear() + "年" + d.getMonth() + "月" + d.getDay() + "日";
+      }
+    },
+    watch:{
+      date:{
+        deep: true,
+        handler(){
+          alert(this.date);
+        }
+      }
     }
   });
 </script>
-</body>
 </html>
