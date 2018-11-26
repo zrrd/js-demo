@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <!--标签就是组件的名字-->
+  <counter></counter>
+</div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script type="text/javascript">
+  // 定义全局组件   哪里都能用的意思
+  Vue.component('counter', {
+    // language=HTML
+    template: `
+      <button @click='count++'>你点了我{{count}}次,我记住了</button>`,
+    data() {
+      return {
+        count: 0
+      }
+    }
+  });
+  //定义局部组件
+  const counter = {
+    // language=HTML
+    template: `
+      <button @click='count++'>你点了我{{count}}次,我记住了</button>`,
+    data() {
+      return {
+        count: 0
+      }
+    }
+  };
+  var vm = new Vue({
+    el: "#app",
+    data: {
+      name: ""
+    },
+    components: {
+      counter //简写 counter:counter
+    }
+  })
+</script>
+</html>

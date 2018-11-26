@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<!--展示组件之间 父向子通信 子向父通信-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <!--普通字符串进行传值-->
+  <introduce title="你好啊"></introduce>
+  <introduce :title="title"></introduce>
+
+  <!--绑定自定义方法-->
+  <counter :num="num" @incr="increment" @decr="decrement"></counter>
+  <br/>
+  num : {{num}}
+</div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script type="text/javascript">
+  // 定义全局组件
+  Vue.component('introduce', {
+    // language=HTML
+    template: `<h3>{{title}}</h3>`,
+    props: ['title'] //子组件 要从 父组件 接收一个名为 title 的组件  可以接收多个组件
+
+    //接收复杂类型
+    /*props:[{
+      itmes:{
+        type:Array,
+        default:[]
+      }
+    }]*/
+
+  });
+
+  //通过调用父组件的函数来操作父组件  子向父同组
+  const counter = {
+    //任何一个模板 只有一个跟元素
+    template: `<div><button @click="plus">+</button>
+               <button @click="reduce">-</button></div>`,
+    props: {
+      num: {
+        type: Number,
+        default: 0
+      }
+    },
+    methods: {
+      //触发自定义的事件  发生reduce是 触发 自定义事件
+      reduce() {
+        this.$emit("decr");
+      },
+      plus() {
+        this.$emit("incr");
+      }
+    }
+  };
+
+  var vm = new Vue({
+    el: "#app",
+    data: {
+      title: "我不好",
+      num: 0
+    },
+    components: {
+      counter
+    },
+    methods: {
+      decrement() {
+        this.num--;
+      },
+      increment() {
+        this.num++;
+      }
+    }
+  })
+</script>
+</html>
