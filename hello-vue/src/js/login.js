@@ -1,4 +1,4 @@
-const loginForm = {
+export default {
   template: `
   <div>
   <h1>登录页</h1>

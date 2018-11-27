@@ -13,21 +13,7 @@
   <router-view></router-view>
 </div>
 </body>
-<script src="../node_modules/vue/dist/vue.js"></script>
-<script src="../node_modules/vue-router/dist/vue-router.js"></script>
-<script src="./js/login.js"></script>
-<script src="./js/regiser.js"></script>
-<script type="text/javascript">
-  const router = new VueRouter({
-    routes: [
-      {path: "/login", component: loginForm},
-      {path: "/register", component: registerForm}// -个路由规则
-    ]
-  });
-  var vm = new Vue({
-    el: "#app",
-    router: router
-
-  });
-</script>
+<!--
+<script src="../dist/build.js"></script>
+-->
 </html>
